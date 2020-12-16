@@ -28,7 +28,6 @@ export default {
     if (this.error.statusCode === 401) {
       Cookie.remove('token')
       this.$store.commit('auth/logout')
-      this.$router.go(-1)
     }
   },
 }
