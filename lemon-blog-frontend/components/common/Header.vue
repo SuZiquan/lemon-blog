@@ -19,10 +19,9 @@
         <a-col flex="end" class="search-wrapper">
           <a-auto-complete
             v-model="searchKeyword"
-            class="search"
+            class="search-input"
             dropdown-class-name="search-dropdown"
             :dropdown-match-select-width="true"
-            style="width: 100%"
             option-label-prop="value"
           >
             <template slot="dataSource">
@@ -270,7 +269,7 @@ export default {
         display: flex;
         align-items: center;
         font-size: 20px;
-        margin: auto 10px auto 20px;
+        margin: auto 2px auto 12px;
         &:hover {
           color: @primary-color;
         }
@@ -303,6 +302,10 @@ export default {
         &:hover {
           color: @link-color;
         }
+
+        @media @mobile {
+          font-size: 18px;
+        }
       }
     }
 
@@ -310,6 +313,12 @@ export default {
       display: flex;
       align-items: center;
       margin-right: 10px;
+      .search-input {
+        width: 100%;
+        @media @mobile {
+          width: 160px;
+        }
+      }
     }
 
     .top-menu {
