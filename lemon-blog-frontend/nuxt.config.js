@@ -34,7 +34,16 @@ export default {
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: ['@nuxtjs/axios', '@nuxtjs/proxy'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/proxy', 'nuxt-compress'],
+
+  'nuxt-compress': {
+    gzip: {
+      cache: true,
+    },
+    brotli: {
+      threshold: 10240,
+    },
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
@@ -45,6 +54,13 @@ export default {
         __dirname,
         './assets/icon/antd-icon.js'
       )
+    },
+
+    optimization: {
+      splitChunks: {
+        minSize: 10000,
+        maxSize: 250000,
+      },
     },
 
     plugins: [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)],
