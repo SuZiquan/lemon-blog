@@ -35,7 +35,7 @@ export default {
   padding: 10px 0 10px 0;
 
   @media @mobile {
-    padding: 0;
+    padding: 8px 0 8px 0;
   }
 
   max-width: 1200px;

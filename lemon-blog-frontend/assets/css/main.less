@@ -18,9 +18,29 @@
 
 @mobile: ~"(max-width: 960px)";
 
+@not-mobile: ~"not (max-width: 960px)";
+
 .boxed {
   background: white;
   padding: 10px;
   border: 1px solid rgb(232, 232, 232);
 }
 
+.mobile-block {
+  @media @mobile {
+    display: block;
+    padding: 2px;
+  }
+}
+
+.hidden-when-mobile {
+  @media @mobile {
+    display: none
+  }
+}
+
+.hidden-when-not-mobile {
+  @media @not-mobile {
+    display: none
+  }
+}

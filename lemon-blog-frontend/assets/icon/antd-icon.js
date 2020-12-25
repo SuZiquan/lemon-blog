@@ -12,3 +12,4 @@ export { default as RightOutline } from '@ant-design/icons/lib/outline/RightOutl
 export { default as SearchOutline } from '@ant-design/icons/lib/outline/SearchOutline'
 export { default as CheckCircleFill } from '@ant-design/icons/lib/fill/CheckCircleFill'
 export { default as CloseCircleFill } from '@ant-design/icons/lib/fill/CloseCircleFill'
+export { default as CloseOutline } from '@ant-design/icons/lib/outline/CloseOutline'

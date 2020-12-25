@@ -6,7 +6,11 @@
         <a-col flex="start" class="drawer-toggle">
           <a-icon type="menu" @click="sidebarVisible = true" />
         </a-col>
-        <a-col flex="auto" class="banner">
+        <a-col
+          v-if="!isMobile || !searchInputVisible"
+          flex="auto"
+          class="banner"
+        >
           <NuxtLink to="/">
             <img
               v-if="bannerLogoUrl"
@@ -17,13 +21,25 @@
           </NuxtLink>
         </a-col>
         <a-col flex="end" class="search-wrapper">
+          <a-icon
+            v-if="isMobile && !searchInputVisible"
+            class="hidden-when-not-mobile"
+            type="search"
+            @click="showSearchInput"
+          />
           <a-auto-complete
+            v-show="isMobile === false || searchInputVisible"
+            ref="searchInput"
             v-model="searchKeyword"
             class="search-input"
             dropdown-class-name="search-dropdown"
             :dropdown-match-select-width="true"
             option-label-prop="value"
+            @blur="onSearchInputBlur"
           >
+            <a-input slot="default">
+              <a-icon slot="prefix" type="search" />
+            </a-input>
             <template slot="dataSource">
               <a-select-opt-group
                 v-if="searchKeyword && searchKeyword.length !== 0"
@@ -48,7 +64,7 @@
                   :value="searchResultKeyword"
                   style="padding: 0"
                 >
-                  <nuxt-link :to="'/article/' + item.id">
+                  <span @click="toSearchResult('/article/' + item.id)">
                     <a-tooltip v-if="!isMobile">
                       <template slot="title"> {{ item.title }} </template>
                       <span class="search-result-item">
@@ -58,7 +74,7 @@
                     <span v-else class="search-result-item">
                       {{ item.title }}
                     </span>
-                  </nuxt-link>
+                  </span>
                 </a-select-option>
                 <a-select-option
                   v-show="
@@ -71,16 +87,17 @@
                   disabled
                   style="padding: 0"
                 >
-                  <nuxt-link
-                    :to="{
-                      name: 'search',
-                      query: { queryString: searchKeyword },
-                    }"
+                  <span
+                    class="search-result-item search-result-show-all"
+                    @click="
+                      toSearchResult({
+                        name: 'search',
+                        query: { queryString: searchKeyword },
+                      })
+                    "
                   >
-                    <span class="search-result-item search-result-show-all">
-                      共{{ searchResultTotal }}条相关结果，查看更多
-                    </span>
-                  </nuxt-link>
+                    共{{ searchResultTotal }}条相关结果，查看更多
+                  </span>
                 </a-select-option>
               </a-select-opt-group>
             </template>
@@ -88,6 +105,13 @@
               <a-icon slot="suffix" type="search" class="icon" />
             </a-input>
           </a-auto-complete>
+          <a
+            v-if="isMobile && searchInputVisible"
+            type="close"
+            style="width: 36px; margin-left: 10px"
+            @click="closeSearchInput"
+            >取消</a
+          >
         </a-col>
 
         <a-col flex="end" class="top-menu">
@@ -105,7 +129,11 @@
           </a-menu>
         </a-col>
 
-        <a-col flex="end" class="login-wrapper">
+        <a-col
+          v-if="!isMobile || !searchInputVisible"
+          flex="end"
+          class="login-wrapper"
+        >
           <a v-if="!logined" class="login-link" @click="onLogin"> 登录 </a>
           <span v-else>
             <a-dropdown>
@@ -176,6 +204,7 @@ export default {
 
   data() {
     return {
+      searchInputVisible: false,
       sidebarVisible: false,
 
       searchKeyword: null,
@@ -185,6 +214,7 @@ export default {
       searchResultTotal: null,
     }
   },
+
   computed: {
     logined() {
       return this.$store.getters['auth/logined']
@@ -236,6 +266,30 @@ export default {
     }, 1000),
   },
   methods: {
+    showSearchInput() {
+      this.searchInputVisible = true
+      this.$nextTick(() => {
+        this.$refs.searchInput.focus()
+      })
+    },
+
+    closeSearchInput() {
+      this.searchInputVisible = true
+      this.searchKeyword = ''
+    },
+
+    onSearchInputBlur() {
+      this.searchInputVisible = false
+    },
+
+    toSearchResult(route) {
+      if (this.isMobile) {
+        this.searchInputVisible = false
+        this.searchKeyword = ''
+      }
+      this.$router.push(route)
+    },
+
     onLogout() {
       this.$store.commit('auth/logout')
       this.$message.success('退出成功')
@@ -301,6 +355,10 @@ export default {
         color: @heading-color;
         &:hover {
           color: @link-color;
+
+          @media @mobile {
+            color: @heading-color;
+          }
         }
 
         @media @mobile {
@@ -314,9 +372,10 @@ export default {
       align-items: center;
       margin-right: 10px;
       .search-input {
-        width: 100%;
+        width: 200px;
         @media @mobile {
-          width: 160px;
+          margin-left: 10px;
+          width: 100%;
         }
       }
     }
@@ -397,6 +456,12 @@ export default {
   .banner {
     text-align: center;
     padding: 20px 0 20px 0;
+
+    @media @mobile {
+      &:hover {
+        color: black;
+      }
+    }
 
     .banner-logo {
       width: 30px;

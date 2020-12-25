@@ -24,12 +24,12 @@
         </div>
         <div class="properties">
           <span class="created-time">发布于：{{ article.createdAt }}</span>
-          <span v-if="article.updatedAt" class="updated-time"
-            >最后更新于：{{ article.updatedAt }}</span
+          <span v-if="article.updatedAt" class="updated-time">
+            最后更新于：{{ article.updatedAt }}</span
           >
         </div>
-        <div class="properties">
-          <span v-if="article.categories.length > 0">
+        <div class="properties" style="padding-top: 6px">
+          <span v-if="article.categories.length > 0" class="mobile-block">
             分类：
             <nuxt-link
               v-for="category in article.categories"
@@ -39,10 +39,10 @@
             >
               {{ category.name }}
             </nuxt-link>
-            <a-divider type="vertical"></a-divider>
+            <a-divider class="hidden-when-mobile" type="vertical"></a-divider>
           </span>
 
-          <span v-if="article.tags.length > 0">
+          <span v-if="article.tags.length > 0" class="mobile-block">
             标签：
             <nuxt-link
               v-for="tag in article.tags"
@@ -65,14 +65,14 @@
         <!-- eslint-enable -->
 
         <a-divider style="margin: 20px 0 20px 0"></a-divider>
-        <div style="height: 30px">
-          <span v-if="article.previous"
+        <div class="neighbor-articles">
+          <span v-if="article.previous" class="previous-article"
             >上一篇：
             <nuxt-link :to="'/article/' + article.previous.id">
               {{ article.previous.title }}</nuxt-link
             ></span
           >
-          <span v-if="article.next" style="float: right"
+          <span v-if="article.next" class="next-article"
             >下一篇：
             <nuxt-link :to="'/article/' + article.next.id">{{
               article.next.title
@@ -221,11 +221,14 @@ export default {
 
   computed: {
     tocShow() {
-      if (this.isMobile()) {
+      if (this.isMobile) {
         return this.tocDrawerVisible
       } else {
         return this.tocSidebarVisible
       }
+    },
+    isMobile() {
+      return this.$store.state.app.isMobile
     },
   },
 
@@ -267,16 +270,12 @@ export default {
   },
 
   methods: {
-    isMobile() {
-      return this.$store.state.app.isMobile
-    },
-
     onTocDrawerClose() {
       this.tocDrawerVisible = false
     },
 
     onTocToggle() {
-      if (this.isMobile()) {
+      if (this.isMobile) {
         this.tocDrawerVisible = !this.tocDrawerVisible
       } else {
         this.tocSidebarVisible = !this.tocSidebarVisible
@@ -349,6 +348,24 @@ export default {
 <style scoped lang="less">
 @import 'assets/css/main.less';
 
+.neighbor-articles {
+  height: 36px;
+  @media @mobile {
+    height: auto;
+  }
+  .previous-article {
+    .mobile-block();
+  }
+
+  .next-article {
+    .mobile-block();
+    float: right;
+    @media @mobile {
+      float: none;
+    }
+  }
+}
+
 .article-wrapper {
   .boxed();
 
@@ -368,9 +385,11 @@ export default {
     padding-top: 10px;
 
     .created-time {
+      .mobile-block();
     }
 
     .updated-time {
+      .mobile-block();
       padding-left: 20px;
     }
 
@@ -391,7 +410,7 @@ export default {
   }
 
   .description {
-    margin: 20px 0;
+    margin: 10px 0 10px 0;
     padding: 10px;
     font-size: 14px;
     color: white;
@@ -421,7 +440,7 @@ export default {
 .comments {
   margin-top: 10px;
   @media @mobile {
-    margin-top: 0;
+    margin-top: 8px;
   }
 }
 

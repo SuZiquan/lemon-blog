@@ -1,5 +1,5 @@
 export const state = () => ({
-  isMobile: false,
+  isMobile: null,
   currentNav: '',
   resourceCount: {},
 

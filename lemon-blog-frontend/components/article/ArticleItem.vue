@@ -4,12 +4,15 @@
       <div class="title">{{ article.title }}</div>
     </nuxt-link>
     <div class="properties">
-      <span>
+      <span class="mobile-block">
         <span class="property-name">发布于：</span>
         {{ article.createdAt }}</span
       >
-      <span v-if="article.categories && article.categories.length > 0">
-        <a-divider type="vertical"></a-divider>
+      <span
+        v-if="article.categories && article.categories.length > 0"
+        class="mobile-block"
+      >
+        <a-divider class="hidden-when-mobile" type="vertical"></a-divider>
         <span class="property-name"> 分类： </span>
 
         <nuxt-link
@@ -22,8 +25,8 @@
         </nuxt-link>
       </span>
 
-      <span v-if="article.tags && article.tags.length > 0">
-        <a-divider type="vertical"></a-divider>
+      <span v-if="article.tags && article.tags.length > 0" class="mobile-block">
+        <a-divider class="hidden-when-mobile" type="vertical"></a-divider>
         <span class="property-name"> 标签： </span>
         <nuxt-link
           v-for="tag in article.tags"
@@ -52,6 +55,11 @@ export default {
       default: () => {
         return {}
       },
+    },
+  },
+  computed: {
+    isMobile() {
+      return this.$store.state.app.isMobile
     },
   },
 }
