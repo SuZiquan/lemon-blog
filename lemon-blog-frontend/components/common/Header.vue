@@ -36,6 +36,7 @@
             :dropdown-match-select-width="true"
             option-label-prop="value"
             @blur="onSearchInputBlur"
+            @change="onSearchKeywordChange"
           >
             <a-input slot="default">
               <a-icon slot="prefix" type="search" />
@@ -266,6 +267,10 @@ export default {
     }, 1000),
   },
   methods: {
+    onSearchKeywordChange() {
+      this.searchResult = []
+      this.searchResultLoading = true
+    },
     showSearchInput() {
       this.searchInputVisible = true
       this.$nextTick(() => {
