@@ -420,6 +420,10 @@ export default {
 
   .content {
     font-size: 16px;
+
+    /deep/ img {
+      max-width: 100% !important;
+    }
   }
 }
 
