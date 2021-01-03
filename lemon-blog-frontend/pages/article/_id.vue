@@ -421,6 +421,8 @@ export default {
   .content {
     font-size: 16px;
 
+    word-wrap: break-word;
+
     /deep/ img {
       max-width: 100% !important;
     }
