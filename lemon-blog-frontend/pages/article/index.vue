@@ -23,8 +23,14 @@ export default {
     return newQuery.pageNum
   },
   components: { ArticleList, ContentLayout },
-  async asyncData({ $axios }) {
-    const articlePage = await $axios.$get('/articles')
+  async asyncData({ $axios, route }) {
+    const pageNum = route.query.pageNum ? parseInt(route.query.pageNum) : 1
+
+    const articlePage = await $axios.$get('/articles', {
+      params: {
+        pageNum,
+      },
+    })
     return {
       paging: {
         total: articlePage.total,
