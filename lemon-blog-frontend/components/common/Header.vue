@@ -167,13 +167,16 @@
           :body-style="{ padding: '0px' }"
           @close="sidebarVisible = false"
         >
-          <div class="banner">
-            <img
-              v-if="bannerLogoUrl"
-              :src="bannerLogoUrl"
-              class="banner-logo"
-            />
-            <span class="banner-title">{{ bannerTitle }}</span>
+          <div class="owner-info-wrapper">
+            <div class="avatar">
+              <img :src="ownerAvatarUrl" alt="ownerAvatar" />
+            </div>
+            <div class="username" style="font-weight: bold">
+              {{ ownerUsername }}
+            </div>
+            <!-- eslint-disable -->
+            <p class="bio" v-html="ownerBio"></p>
+            <!-- eslint-enable -->
           </div>
           <a-menu :selected-keys="currentNav" mode="inline" class="drawer-menu">
             <a-menu-item
@@ -237,6 +240,15 @@ export default {
     },
     bannerTitle() {
       return this.$store.state.app.bannerTitle
+    },
+    ownerUsername() {
+      return this.$store.state.app.ownerUsername
+    },
+    ownerAvatarUrl() {
+      return this.$store.state.app.ownerAvatarUrl
+    },
+    ownerBio() {
+      return this.$store.state.app.ownerBio
     },
   },
 
@@ -329,9 +341,6 @@ export default {
         align-items: center;
         font-size: 20px;
         margin: auto 2px auto 12px;
-        &:hover {
-          color: @primary-color;
-        }
       }
     }
   }
@@ -341,11 +350,6 @@ export default {
       display: flex;
       align-items: center;
       margin-left: 10px;
-
-      &:hover {
-        cursor: pointer;
-        color: @primary-color;
-      }
 
       .banner-logo {
         width: 30px;
@@ -358,13 +362,6 @@ export default {
         font-weight: bold;
         text-align: center;
         color: @heading-color;
-        &:hover {
-          color: @link-color;
-
-          @media @mobile {
-            color: @heading-color;
-          }
-        }
 
         @media @mobile {
           font-size: 18px;
@@ -483,6 +480,38 @@ export default {
 
   .drawer-menu {
     border: none;
+  }
+
+  .owner-info-wrapper {
+    margin-top: 24px;
+    text-align: center;
+    margin-bottom: 6px;
+
+    .avatar {
+      margin: 0 auto 6px auto;
+      width: 80px;
+      height: 80px;
+      border: @border-color-base solid 2px;
+      border-radius: 50%;
+      display: block;
+
+      img {
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+    .username {
+      color: rgba(0, 0, 0, 0.85);
+      font-size: 16px;
+      line-height: 28px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .bio {
+      text-align: center;
+    }
   }
 }
 </style>
