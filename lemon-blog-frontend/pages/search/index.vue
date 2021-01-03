@@ -80,7 +80,7 @@ export default {
       this.$router.push({
         name: 'search',
         query: {
-          id: this.queryString,
+          queryString: this.queryString,
           pageNum,
         },
       })
@@ -89,7 +89,7 @@ export default {
 
   head() {
     return {
-      title: this.queryString,
+      title: "包含'" + this.queryString + "'的查询结果",
     }
   },
 }
