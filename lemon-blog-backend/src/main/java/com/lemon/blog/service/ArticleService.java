@@ -181,15 +181,15 @@ public class ArticleService {
         articleDto.setTags(tagDtos);
 
         Article previous = articleMapper.selectOne(Wrappers.<Article>query()
-                .gt("id", id)
+                .gt("created_at", articleDto.getCreatedAt())
                 .eq("status", ArticleStatus.PUBLIC.getValue())
-                .orderByAsc("id")
+                .orderByAsc("created_at")
                 .last(" limit 1")
                 .select("id", "title"));
         Article next = articleMapper.selectOne(Wrappers.<Article>query()
-                .lt("id", id)
+                .lt("created_at", articleDto.getCreatedAt())
                 .eq("status", ArticleStatus.PUBLIC.getValue())
-                .orderByDesc("id")
+                .orderByDesc("created_at")
                 .last(" limit 1")
                 .select("id", "title"));
 
