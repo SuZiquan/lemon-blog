@@ -302,8 +302,9 @@ export default {
     toSearchResult(route) {
       if (this.isMobile) {
         this.searchInputVisible = false
-        this.searchKeyword = ''
       }
+      this.searchKeyword = ''
+      this.searchResultKeyword = ''
       this.$router.push(route)
     },
 
