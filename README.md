@@ -35,7 +35,7 @@
 3. 修改配置文件 lemon-blog-backend/src/main/resources/application.properties
     ``` yaml
     # 修改 MySQL 配置
-    spring.datasource.url=jdbc:mysql://localhost:3306/lemon_blog?useUnicode=true&   characterEncoding=UTF8&useSSL=false
+    spring.datasource.url=jdbc:mysql://localhost:3306/lemon_blog?useUnicode=true&characterEncoding=UTF8&useSSL=false
     spring.datasource.username=mysql-username
     spring.datasource.password=mysql-password
 
