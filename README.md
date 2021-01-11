@@ -18,7 +18,7 @@
 项目分为三个部分：
 - lemon-blog-frontend：博客展示前端，使用 Nuxt 做服务端渲染，做了一些移动端适配，主要技术：Vue、Vuex、Ant Design Vue、Nuxt
 - lemon-blog-admin-frontend：博客管理前端，主要技术：Vue、Vuex、Vue Router、Ant Design Vue Pro
-- lemon-blog-backend: 博客后端，主要技术：Spring Boot、Spring MVC、Spring Security、Mybatis Plus
+- lemon-blog-backend：博客后端，主要技术：Spring Boot、Spring MVC、Spring Security、Mybatis Plus
 
 ## 项目预览
 在线演示：https://suziquan.cn
